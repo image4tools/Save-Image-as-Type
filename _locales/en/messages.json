@@ -1,0 +1,26 @@
+{
+	"extName": {
+		"message": "Save image as Type"
+	},
+	"extShortName": {
+		"message": "SaveImageAs"
+	},
+	"extDescription": {
+		"message": "Save image as PNG, JPG or WebP by context menu on image."
+	},
+	"Save_as": {
+		"message": "Save as"
+	},
+	"View_in_store": {
+		"message": "View in store"
+	},
+	"errorIsNotImage": {
+		"message": "It's not an image"
+	},
+	"errorOnSaving": {
+		"message": "An error occurred while saving the image"
+	},
+	"errorOnLoading": {
+		"message": "An error occurred while loading the image"
+	}
+}

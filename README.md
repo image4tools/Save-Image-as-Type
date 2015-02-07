@@ -4,7 +4,7 @@
 
 由于自己需要将chrome web store上的webp图片另存为jpg格式，先是找了专门的转换软件，但是使用比较麻烦，后来在web store里找到了一个Save Image As Type 1.0.5的扩展，但是这个扩展已经许久不维护，并且当前已经**无法运行**，于是自己在此基础上进行了一些改进。
 
-[从 Chrome Web Store 安装 Save Image as Type](https://chrome.google.com/webstore/detail/ibcmpbjdpbkbdgejlchkllfiagebgbjp)
+[从 Chrome Web Store 安装 Save Image as Type](https://chrome.google.com/webstore/detail/gabfmnliflodkdafenbcpjdlppllnemd)
 
 
 参考作品1: [Save Image As Type 1.0.5](https://chrome.google.com/webstore/detail/ibcmpbjdpbkbdgejlchkllfiagebgbjp)
