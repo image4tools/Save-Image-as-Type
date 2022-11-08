@@ -1,0 +1,23 @@
+{
+	"extName": {
+		"message": "Enregistrer l’image en tant que Type"
+	},
+	"extDescription": {
+		"message": "Enregistrez l’image au format PNG, JPG ou WebP par menu contextuel de l’image."
+	},
+	"Save_as": {
+		"message": "Enregistrer sous"
+	},
+	"View_in_store": {
+		"message": "Afficher dans le Web Store"
+	},
+	"errorIsNotImage": {
+		"message": "Ce n’est pas une image"
+	},
+	"errorOnSaving": {
+		"message": "Une erreur s’est produite lors de l’enregistrement de l’image"
+	},
+	"errorOnLoading": {
+		"message": "Une erreur s’est produite lors du chargement de l’image"
+	}
+}
