@@ -1,0 +1,26 @@
+{
+	"extName": {
+		"message": "Salvar imagem como Tipo"
+	},
+	"extShortName": {
+		"message": "SalvarImagemComo"
+	},
+	"extDescription": {
+		"message": "Salve a imagem como PNG, JPG ou WebP por menu de contexto na imagem."
+	},
+	"Save_as": {
+		"message": "Salvar como"
+	},
+	"View_in_store": {
+		"message": "Ver na Web Store"
+	},
+	"errorIsNotImage": {
+		"message": "Não é uma imagem"
+	},
+	"errorOnSaving": {
+		"message": "Ocorreu um erro ao salvar a imagem"
+	},
+	"errorOnLoading": {
+		"message": "Ocorreu um erro ao carregar a imagem"
+	}
+}
