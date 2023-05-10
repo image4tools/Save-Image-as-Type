@@ -8,11 +8,12 @@
       "48": "icon-48.png"
    },
    "background": {
-      "scripts": [ "background.js" ]
+      "service_worker": "background.js"
    },
    "default_locale": "en",
-   "manifest_version": 2,
-   "minimum_chrome_version": "31.0.0.0",
-   "permissions": [ "downloads", "contextMenus", "http://*/*", "https://*/*" ],
-   "version": "1.1.0"
+   "manifest_version": 3,
+   "minimum_chrome_version": "88.0.0.0",
+   "permissions": [ "downloads", "contextMenus", "notifications", "offscreen", "activeTab" ],
+   "optional_host_permissions": [ "<all_urls>" ],
+   "version": "1.2.0"
 }
