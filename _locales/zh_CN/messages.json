@@ -9,10 +9,19 @@
 		"message": "为图片添加右键菜单：另存为PNG，另存为JPG，另存为WebP."
 	},
 	"Save_as": {
-		"message": "另存为"
+		"message": "另存为 $FORMAT$",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
 	},
 	"View_in_store": {
 		"message": "在应用商店查看"
+	},
+	"errorIsNotImage": {
+		"message": "目标不是图片"
 	},
 	"errorOnSaving": {
 		"message": "保存图片文件时发生错误"

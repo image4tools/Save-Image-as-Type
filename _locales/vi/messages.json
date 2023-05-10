@@ -1,0 +1,32 @@
+{
+	"extName": {
+		"message": "Lưu hình ảnh dưới dạng JPG/PNG/WebP"
+	},
+	"extShortName": {
+		"message": "SaveImageAs"
+	},
+	"extDescription": {
+		"message": "Lưu hình ảnh dưới dạng PNG, JPG hoặc WebP bằng menu ngữ cảnh trên hình ảnh."
+	},
+	"Save_as": {
+		"message": "Lưu dưới dạng $FORMAT$",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
+	},
+	"View_in_store": {
+		"message": "Xem tại cửa hàng"
+	},
+	"errorIsNotImage": {
+		"message": "Nó không phải là một hình ảnh"
+	},
+	"errorOnSaving": {
+		"message": "Đã xảy ra lỗi khi lưu hình ảnh"
+	},
+	"errorOnLoading": {
+		"message": "Đã xảy ra lỗi khi tải hình ảnh"
+	}
+}

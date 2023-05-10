@@ -1,0 +1,32 @@
+{
+	"extName": {
+		"message": "Сохранить изображение как"
+	},
+	"extShortName": {
+		"message": "SaveImageAs"
+	},
+	"extDescription": {
+		"message": "Сохраните изображение как PNG, JPG или WebP с помощью контекстного меню на изображении."
+	},
+	"Save_as": {
+		"message": "Сохранить как $FORMAT$",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
+	},
+	"View_in_store": {
+		"message": "Открыть в магазине"
+	},
+	"errorIsNotImage": {
+		"message": "Это не изображение"
+	},
+	"errorOnSaving": {
+		"message": "Произошла ошибка при сохранении изображения"
+	},
+	"errorOnLoading": {
+		"message": "Произошла ошибка при загрузке изображения"
+	}
+}

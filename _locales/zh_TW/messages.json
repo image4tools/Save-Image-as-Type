@@ -1,0 +1,32 @@
+{
+	"extName": {
+		"message": "圖片另存為JPG/PNG/WebP"
+	},
+	"extShortName": {
+		"message": "圖片另存為"
+	},
+	"extDescription": {
+		"message": "為圖片添加右鍵菜單：另存為PNG，另存為JPG，另存為WebP."
+	},
+	"Save_as": {
+		"message": "另存為 $FORMAT$",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
+	},
+	"View_in_store": {
+		"message": "在應用商店查看"
+	},
+	"errorIsNotImage": {
+		"message": "目標不是圖片"
+	},
+	"errorOnSaving": {
+		"message": "保存圖片文件時發生錯誤"
+	},
+	"errorOnLoading": {
+		"message": "加載圖片文件時發生錯誤"
+	}
+}

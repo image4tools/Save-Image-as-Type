@@ -1,0 +1,32 @@
+{
+	"extName": {
+		"message": "画像を JPG/PNG/WebP として保存"
+	},
+	"extShortName": {
+		"message": "SaveImageAs"
+	},
+	"extDescription": {
+		"message": "画像のコンテキスト メニューで、画像を PNG、JPG、または WebP として保存します。"
+	},
+	"Save_as": {
+		"message": "$FORMAT$ として保存",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
+	},
+	"View_in_store": {
+		"message": "ストアで見る"
+	},
+	"errorIsNotImage": {
+		"message": "画像じゃないです"
+	},
+	"errorOnSaving": {
+		"message": "画像の保存中にエラーが発生しました"
+	},
+	"errorOnLoading": {
+		"message": "画像の読み込み中にエラーが発生しました"
+	}
+}

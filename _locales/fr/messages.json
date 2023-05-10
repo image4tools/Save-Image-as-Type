@@ -1,0 +1,32 @@
+{
+	"extName": {
+		"message": "Enregistrer l'image au format JPG/PNG/WebP"
+	},
+	"extShortName": {
+		"message": "SaveImageAs"
+	},
+	"extDescription": {
+		"message": "Enregistrez l'image au format PNG, JPG ou WebP par le menu contextuel sur l'image."
+	},
+	"Save_as": {
+		"message": "Enregistrer au format $FORMAT$",
+		"placeholders": {
+			"format": {
+				"content": "$1",
+				"example": "PNG"
+			}
+		}
+	},
+	"View_in_store": {
+		"message": "Voir en magasin"
+	},
+	"errorIsNotImage": {
+		"message": "Ce n'est pas une image"
+	},
+	"errorOnSaving": {
+		"message": "Une erreur s'est produite lors de l'enregistrement de l'image"
+	},
+	"errorOnLoading": {
+		"message": "Une erreur s'est produite lors du chargement de l'image"
+	}
+}
