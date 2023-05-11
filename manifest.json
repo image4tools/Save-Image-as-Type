@@ -13,7 +13,7 @@
    "default_locale": "en",
    "manifest_version": 3,
    "minimum_chrome_version": "88.0.0.0",
-   "permissions": [ "downloads", "contextMenus", "notifications", "offscreen", "activeTab" ],
+   "permissions": [ "downloads", "contextMenus", "offscreen", "activeTab" ],
    "host_permissions": [ "<all_urls>" ],
    "version": "1.2.1"
 }

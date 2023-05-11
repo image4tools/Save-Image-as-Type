@@ -16,11 +16,13 @@ function download(url, filename) {
 
 async function fetchAsDataURL(src, callback) {
 	let srcOrigin = new URL(src).origin;
-	let granted = await chrome.permissions.request({
-		origins: [srcOrigin + '/'],
-	});
-	if (!granted) {
-		return;
+	if (!src.startsWith('blob:') && !src.startsWith('data:')) {
+		let granted = await chrome.permissions.request({
+			origins: [srcOrigin + '/'],
+		});
+		if (!granted) {
+			return;
+		}
 	}
 	fetch(src)
 	.then(res => res.blob())
@@ -42,6 +44,9 @@ function getSuggestedFilename(src, type) {
 	//special for chrome web store apps
 	if(src.match(/googleusercontent\.com\/[0-9a-zA-Z]{30,}/)){
 		return 'screenshot.'+type;
+	}
+	if (src.startsWith('blob:') || src.startsWith('data:')) {
+		return 'Untitled.'+type;
 	}
 	var filename = src.replace(/[?#].*/,'').replace(/.*[\/]/,'').replace(/\+/g,' ');
 	filename = decodeURIComponent(filename);
@@ -67,17 +72,25 @@ function notify(msg) {
 	if (msg.error) {
 		msg = (chrome.i18n.getMessage(msg.error) || msg.error) + '\n'+ (msg.srcUrl || msg.src);
 	}
-	chrome.notifications.create(
-		// 'notify',
-		{
-			type: 'basic',
-			iconUrl: 'icon-48.png',
-			title: chrome.i18n.getMessage('__MSG_extName__'),
-			message: msg,
-			eventTime: Date.now() + 3000,
-		},
-		function(notificationId){},
-	);
+	chrome.permissions.contains({
+		permissions: ['notifications']
+	  }, (result) => {
+		if (result) {
+			chrome.notifications.create(
+				// 'notify',
+				{
+					type: 'basic',
+					iconUrl: 'icon-48.png',
+					title: chrome.i18n.getMessage('__MSG_extName__'),
+					message: msg,
+					eventTime: Date.now() + 3000,
+				},
+				function(notificationId){},
+			);
+		} else {
+			console.warn(msg);
+		}
+	});
 }
 
 var canvas;
@@ -151,15 +164,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-	let tabId = tab.id;
-	let {menuItemId, mediaType, frameId, frameUrl, pageUrl, srcUrl} = info;
+	let {menuItemId, mediaType, srcUrl} = info;
 	if (menuItemId.startsWith('save_as_')) {
 		if (mediaType=='image' && srcUrl) {
-			// console.log({frameUrl, pageUrl, srcUrl});
-			let pageOrigin = new URL(frameUrl || pageUrl).origin;
-			let srcOrigin = new URL(srcUrl).origin;
 			let type = menuItemId.replace('save_as_', '');
-			let world = srcOrigin == pageOrigin || srcUrl.startsWith('blob:') ? 'MAIN' : 'ISOLATED'
 			let filename = getSuggestedFilename(srcUrl, type);
 			loadMessages();
 			fetchAsDataURL(srcUrl, async function(error, dataurl) {
@@ -167,7 +175,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 					notify({error, srcUrl});
 					return;
 				}
-				// console.log('fetch ok ' + srcUrl + '\n' + dataurl);
 				const offscreenSrc = 'offscreen.html'
 				if (!(await hasOffscreenDocument(offscreenSrc))) {
 					await chrome.offscreen.createDocument({

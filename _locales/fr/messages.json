@@ -1,6 +1,6 @@
 {
 	"extName": {
-		"message": "Enregistrer l'image au format JPG/PNG/WebP"
+		"message": "Enregistrer l'image sous JPG/PNG/WebP"
 	},
 	"extShortName": {
 		"message": "SaveImageAs"
@@ -18,7 +18,7 @@
 		}
 	},
 	"View_in_store": {
-		"message": "Voir en magasin"
+		"message": "Afficher sur le store"
 	},
 	"errorIsNotImage": {
 		"message": "Ce n'est pas une image"
