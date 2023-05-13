@@ -13,8 +13,7 @@ Because I need to save the webp image on the chrome web store as jpg format, I f
 
 [Install Save Image as Type from the Chrome Web Store](https://chrome.google.com/webstore/detail/gabfmnliflodkdafenbcpjdlppllnemd)
 
-Reference works 1: [Save Image As Type 1.0.5](https://chrome.google.com/webstore/detail/ibcmpbjdpbkbdgejlchkllfiagebgbjp)
-(Unable to run)
+Reference works 1: ~~Save Image As Type 1.0.5~~ (Removed from web store)
 
 Reference works 2: [Save Image As PNG 1.0.2](https://chrome.google.com/webstore/detail/nkokmeaibnajheohncaamjggkanfbphi)
 (Can only be saved as PNG，Cannot be saved as JPG and WebP)
@@ -31,8 +30,7 @@ Reference works 2: [Save Image As PNG 1.0.2](https://chrome.google.com/webstore/
 [从 Chrome Web Store 安装 Save Image as Type](https://chrome.google.com/webstore/detail/gabfmnliflodkdafenbcpjdlppllnemd)
 
 
-参考作品1: [Save Image As Type 1.0.5](https://chrome.google.com/webstore/detail/ibcmpbjdpbkbdgejlchkllfiagebgbjp)
-(无法运行)
+参考作品1: ~~Save Image As Type 1.0.5~~ (已下架)
 
 参考作品2: [Save Image As PNG 1.0.2](https://chrome.google.com/webstore/detail/nkokmeaibnajheohncaamjggkanfbphi)
 (只能保存为PNG，不能保存为JPG和WebP)
