@@ -14,6 +14,7 @@
    "manifest_version": 3,
    "minimum_chrome_version": "88.0.0.0",
    "permissions": [ "downloads", "contextMenus", "offscreen", "activeTab" ],
+   "optional_permissions": [ "scripting" ],
    "host_permissions": [ "<all_urls>" ],
-   "version": "1.2.1"
+   "version": "1.2.2"
 }

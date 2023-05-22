@@ -15,14 +15,9 @@ function download(url, filename) {
 }
 
 async function fetchAsDataURL(src, callback) {
-	let srcOrigin = new URL(src).origin;
-	if (!src.startsWith('blob:') && !src.startsWith('data:')) {
-		let granted = await chrome.permissions.request({
-			origins: [srcOrigin + '/'],
-		});
-		if (!granted) {
-			return;
-		}
+	if (src.startsWith('data:')) {
+		callback(null, src);
+		return;
 	}
 	fetch(src)
 	.then(res => res.blob())
@@ -72,28 +67,8 @@ function notify(msg) {
 	if (msg.error) {
 		msg = (chrome.i18n.getMessage(msg.error) || msg.error) + '\n'+ (msg.srcUrl || msg.src);
 	}
-	chrome.permissions.contains({
-		permissions: ['notifications']
-	  }, (result) => {
-		if (result) {
-			chrome.notifications.create(
-				// 'notify',
-				{
-					type: 'basic',
-					iconUrl: 'icon-48.png',
-					title: chrome.i18n.getMessage('__MSG_extName__'),
-					message: msg,
-					eventTime: Date.now() + 3000,
-				},
-				function(notificationId){},
-			);
-		} else {
-			console.warn(msg);
-		}
-	});
 }
 
-var canvas;
 var messages;
 
 function loadMessages() {
@@ -119,6 +94,7 @@ async function hasOffscreenDocument(path) {
 
 chrome.runtime.onInstalled.addListener(function () {
 	loadMessages();
+	patchForNoOffscreenApiChrome();
 	['JPG','PNG','WebP'].forEach(function (type){
 		chrome.contextMenus.create({
 			"id" : "save_as_" + type.toLowerCase(),
@@ -163,18 +139,48 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 	let {menuItemId, mediaType, srcUrl} = info;
 	if (menuItemId.startsWith('save_as_')) {
 		if (mediaType=='image' && srcUrl) {
 			let type = menuItemId.replace('save_as_', '');
 			let filename = getSuggestedFilename(srcUrl, type);
 			loadMessages();
+			if (!chrome.offscreen) {
+				// for old chrome v108-
+				let permitted = await chrome.permissions.contains({
+					permissions: ['scripting'],
+					origins: ['<all_urls>'],
+				});
+				if (!permitted) {
+					let granted = await chrome.permissions.request({
+						permissions: ['scripting'],
+						origins: ['<all_urls>'],
+					});
+					if (!granted) {
+						return;
+					}
+				}
+			}
 			fetchAsDataURL(srcUrl, async function(error, dataurl) {
 				if (error) {
 					notify({error, srcUrl});
 					return;
 				}
+				// offscreen api need chrome v109+
+				if (!chrome.offscreen) {
+					// for old chrome v108-
+					let port = chrome.tabs.connect(
+						tab.id,
+						{
+							name: 'convertType',
+							frameId: info.frameId,
+						},
+					);
+					await port.postMessage({ op: 'convertType', target: 'content', src: dataurl, type, filename });
+					return;
+				}
+				// for new chrome v109+
 				const offscreenSrc = 'offscreen.html'
 				if (!(await hasOffscreenDocument(offscreenSrc))) {
 					await chrome.offscreen.createDocument({
@@ -197,3 +203,21 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 		return;
 	}
 });
+
+async function patchForNoOffscreenApiChrome() {
+	// offscreen api need chrome v109+
+	if (chrome.offscreen) {
+		return;
+	}
+	if (!chrome.scripting) {
+		return;
+	}
+	await chrome.scripting.registerContentScripts([{
+		allFrames: true,
+		id: "content-script",
+		js: ["offscreen.js"], // content script and offscreen use the same file.
+		persistAcrossSessions: true,
+		matches: ["<all_urls>"],
+		runAt: "document_idle",
+	}]);
+}

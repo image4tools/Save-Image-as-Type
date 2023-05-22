@@ -1,8 +1,18 @@
+// work as offscreen
 chrome.runtime.onMessage.addListener(handleMessages);
+
+// work as content script for old chrome (v108-)
+let contentPort = null;
+chrome.runtime.onConnect.addListener(port => {
+	if (port.name == 'convertType') {
+		contentPort = port;
+		port.onMessage.addListener(handleMessages);
+	}
+});
 
 async function handleMessages(message) {
 	let {op, target, filename, src, type} = message;
-	if (target !== 'offscreen') {
+	if (target !== 'offscreen' && target !== 'content') {
 	  return false;
 	}
 	switch (op) {
@@ -12,6 +22,10 @@ async function handleMessages(message) {
 			return false;
 		}
 		convertImageAsType(src, filename, type);
+		if (contentPort) {
+			contentPort.disconnect();
+			contentPort = null;
+		}
 		break;
 	  default:
 		console.warn(`Unexpected message type received: '${op}'.`);
