@@ -1,3 +1,20 @@
+var messages;
+
+// some old chrome doesn't support chrome.i18n.getMessage in service worker.
+if (!chrome.i18n?.getMessage) {
+	if (!chrome.i18n) {
+		chrome.i18n = {};
+	}
+	chrome.i18n.getMessage = (key, args) => {
+		if (key == 'View_in_store') {
+			return 'View in store';
+		}
+		if (key == 'Save_as' && args?.[0]) {
+			return 'Save as ' + args[0];
+		}
+		return key;
+	};
+}
 
 function download(url, filename) {
 	chrome.downloads.download(
@@ -69,8 +86,6 @@ function notify(msg) {
 	}
 }
 
-var messages;
-
 function loadMessages() {
 	if (!messages) {
 		messages = {};
@@ -94,7 +109,6 @@ async function hasOffscreenDocument(path) {
 
 chrome.runtime.onInstalled.addListener(function () {
 	loadMessages();
-	patchForNoOffscreenApiChrome();
 	['JPG','PNG','WebP'].forEach(function (type){
 		chrome.contextMenus.create({
 			"id" : "save_as_" + type.toLowerCase(),
@@ -148,19 +162,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 			loadMessages();
 			if (!chrome.offscreen) {
 				// for old chrome v108-
-				let permitted = await chrome.permissions.contains({
-					permissions: ['scripting'],
-					origins: ['<all_urls>'],
+				let frameIds = info.frameId ? [] : void 0;
+				await chrome.scripting.executeScript({
+					target: { tabId: tab.id, frameIds },
+					files: ["offscreen.js"], // content script and offscreen use the same file.
 				});
-				if (!permitted) {
-					let granted = await chrome.permissions.request({
-						permissions: ['scripting'],
-						origins: ['<all_urls>'],
-					});
-					if (!granted) {
-						return;
-					}
-				}
 			}
 			fetchAsDataURL(srcUrl, async function(error, dataurl) {
 				if (error) {
@@ -203,21 +209,3 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 		return;
 	}
 });
-
-async function patchForNoOffscreenApiChrome() {
-	// offscreen api need chrome v109+
-	if (chrome.offscreen) {
-		return;
-	}
-	if (!chrome.scripting) {
-		return;
-	}
-	await chrome.scripting.registerContentScripts([{
-		allFrames: true,
-		id: "content-script",
-		js: ["offscreen.js"], // content script and offscreen use the same file.
-		persistAcrossSessions: true,
-		matches: ["<all_urls>"],
-		runAt: "document_idle",
-	}]);
-}
