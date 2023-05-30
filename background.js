@@ -1,4 +1,4 @@
-var messages;
+let messages;
 
 // some old chrome doesn't support chrome.i18n.getMessage in service worker.
 if (!chrome.i18n?.getMessage) {
@@ -42,9 +42,9 @@ async function fetchAsDataURL(src, callback) {
 		if (!blob.size) {
 			throw 'Fetch failed of 0 size';
 		}
-		var reader = new FileReader();
+		let reader = new FileReader();
 		reader.onload = async function(evt){
-			var dataurl = evt.target.result;
+			let dataurl = evt.target.result;
 			callback(null, dataurl);
 		};
 		reader.readAsDataURL(blob);
@@ -60,7 +60,7 @@ function getSuggestedFilename(src, type) {
 	if (src.startsWith('blob:') || src.startsWith('data:')) {
 		return 'Untitled.'+type;
 	}
-	var filename = src.replace(/[?#].*/,'').replace(/.*[\/]/,'').replace(/\+/g,' ');
+	let filename = src.replace(/[?#].*/,'').replace(/.*[\/]/,'').replace(/\+/g,' ');
 	filename = decodeURIComponent(filename);
 	filename = filename.replace(/[\x00-\x7f]+/g, function (s){
 		return s.replace(/[^\w\-\.\,@ ]+/g,'');
@@ -155,11 +155,23 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 	let {menuItemId, mediaType, srcUrl} = info;
+	let connectTab = () => {
+		// for old chrome v108-
+		let port = chrome.tabs.connect(
+			tab.id,
+			{
+				name: 'convertType',
+				frameId: info.frameId,
+			},
+		);
+		return port;
+	};
 	if (menuItemId.startsWith('save_as_')) {
 		if (mediaType=='image' && srcUrl) {
 			let type = menuItemId.replace('save_as_', '');
 			let filename = getSuggestedFilename(srcUrl, type);
 			loadMessages();
+			let noChange = srcUrl.startsWith('data:image/' + (type == 'jpg' ? 'jpeg' : type) + ';');
 			if (!chrome.offscreen) {
 				// for old chrome v108-
 				let frameIds = info.frameId ? [] : void 0;
@@ -176,17 +188,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 				// offscreen api need chrome v109+
 				if (!chrome.offscreen) {
 					// for old chrome v108-
-					let port = chrome.tabs.connect(
-						tab.id,
-						{
-							name: 'convertType',
-							frameId: info.frameId,
-						},
-					);
-					await port.postMessage({ op: 'convertType', target: 'content', src: dataurl, type, filename });
+					let port = connectTab();
+					await port.postMessage({ op: noChange ? 'download' : 'convertType', target: 'content', src: dataurl, type, filename });
 					return;
 				}
 				// for new chrome v109+
+				if (noChange) {
+					download(dataurl, filename);
+					return;
+				}
 				const offscreenSrc = 'offscreen.html'
 				if (!(await hasOffscreenDocument(offscreenSrc))) {
 					await chrome.offscreen.createDocument({
@@ -204,7 +214,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 		return;
 	}
 	if (menuItemId == 'view_in_store') {
-		var url = "https://chrome.google.com/webstore/detail/save-image-as-type/" + chrome.i18n.getMessage("@@extension_id");
+		let url = "https://chrome.google.com/webstore/detail/save-image-as-type/" + chrome.i18n.getMessage("@@extension_id");
 		chrome.tabs.create({ url: url, index: tab.index + 1 });
 		return;
 	}

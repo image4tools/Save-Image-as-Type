@@ -16,5 +16,5 @@
    "permissions": [ "downloads", "contextMenus", "offscreen", "activeTab", "scripting" ],
    "optional_permissions": [ ],
    "host_permissions": [ "<all_urls>" ],
-   "version": "1.2.2"
+   "version": "1.2.3"
 }
