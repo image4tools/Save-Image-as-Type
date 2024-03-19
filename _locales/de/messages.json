@@ -6,10 +6,10 @@
 		"message": "SaveImageAs"
 	},
 	"extDescription": {
-		"message": "Save image as PNG, JPG or WebP by context menu on image."
+		"message": "Speichere Bilder als PNG-, JPG- oder WebP-Dateien mit einem Rechtsklick auf ein Bild."
 	},
 	"Save_as": {
-		"message": "Save as $FORMAT$",
+		"message": "Speichere als $FORMAT$",
 		"placeholders": {
 			"format": {
 				"content": "$1",
@@ -18,15 +18,15 @@
 		}
 	},
 	"View_in_store": {
-		"message": "View in store"
+		"message": "Im Store ansehen"
 	},
 	"errorIsNotImage": {
-		"message": "It's not an image"
+		"message": "Das ist kein Bild."
 	},
 	"errorOnSaving": {
-		"message": "An error occurred while saving the image"
+		"message": "Beim Speichern des Bildes ist ein Fehler aufgetreten."
 	},
 	"errorOnLoading": {
-		"message": "An error occurred while loading the image"
+		"message": "Beim Laden des Bildes ist ein Fehler aufgetreten."
 	}
 }
